@@ -133,3 +133,6 @@ turbomind/
 
 # aliyun
 core.*
+
+# local venv
+venv/
