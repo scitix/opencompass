@@ -6,16 +6,17 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.mmlu_simple_evals_gen_761cfe import (
-        mmlu_datasets,
+    from opencompass.configs.datasets.scitix.gpqa_diamond_simple_evals_gen_761cfe import (
+        gpqa_diamond_datasets,
     )
 
 # datasets
-for mmlu_dataset in mmlu_datasets:
-    mmlu_dataset["n"] = 1
-    # mmlu_dataset["num_examples"] = 10
+for gpqa_diamond_dataset in gpqa_diamond_datasets:
+    gpqa_diamond_dataset["n"] = 1
+    # gpqa_diamond_dataset["n_repeats"] = 1
+    # gpqa_diamond_dataset["num_examples"] = 10
 
-datasets = [*mmlu_datasets]
+datasets = [*gpqa_diamond_datasets]
 
 # models
 qwen2_5_72b_instruct_api = dict(
@@ -33,7 +34,7 @@ qwen2_5_72b_instruct = dict(
     **qwen2_5_72b_instruct_api,
     query_per_second=32,
     batch_size=128,
-    temperature=0.7,
+    temperature=0.0,
     max_out_len=8192,
 )
 
@@ -61,4 +62,4 @@ eval = dict(
     ),
 )
 
-work_dir = "./outputs/mmlu"
+work_dir = "./outputs/gpqa_diamond"

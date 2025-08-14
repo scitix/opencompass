@@ -1,4 +1,14 @@
 DATASETS_MAPPING = {
+    "scitix/mmlu_simple-evals": {
+        "ms_id": "scitix/mmlu_simple-evals",
+        "hf_id": "scitix/mmlu_simple-evals",
+        "local": "./data/mmlu_simple-evals/mmlu.csv",
+    },
+    "scitix/gpqa-diamond_simple-evals": {
+        "ms_id": "scitix/gpqa-diamond_simple-evals",
+        "hf_id": "scitix/gpqa-diamond_simple-evals",
+        "local": "./data/gpqa-diamond_simple-evals/gpqa_diamond.csv",
+    },
     # KLCE Datasets
     "opencompass/kcle":{
         "ms_id": None,
@@ -204,11 +214,6 @@ DATASETS_MAPPING = {
         "ms_id": "opencompass/mmlu",
         "hf_id": "opencompass/mmlu",
         "local": "./data/mmlu/",
-    },
-    "scitix/mmlu_simple-evals": {
-        "ms_id": "scitix/mmlu_simple-evals",
-        "hf_id": "scitix/mmlu_simple-evals",
-        "local": "./data/mmlu_simple-evals/mmlu.csv",
     },
     # MMLU_PRO
     "opencompass/mmlu_pro": {
