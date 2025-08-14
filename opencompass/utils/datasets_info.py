@@ -205,6 +205,11 @@ DATASETS_MAPPING = {
         "hf_id": "opencompass/mmlu",
         "local": "./data/mmlu/",
     },
+    "scitix/mmlu_simple-evals": {
+        "ms_id": "scitix/mmlu_simple-evals",
+        "hf_id": "scitix/mmlu_simple-evals",
+        "local": "./data/mmlu_simple-evals/mmlu.csv",
+    },
     # MMLU_PRO
     "opencompass/mmlu_pro": {
         "ms_id": "",
