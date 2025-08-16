@@ -9,6 +9,11 @@ DATASETS_MAPPING = {
         "hf_id": "scitix/gpqa-diamond_simple-evals",
         "local": "./data/gpqa-diamond_simple-evals/gpqa_diamond.csv",
     },
+    "scitix/simpleqa_simple-evals": {
+        "ms_id": "scitix/simpleqa_simple-evals",
+        "hf_id": "scitix/simpleqa_simple-evals",
+        "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
+    },
     # KLCE Datasets
     "opencompass/kcle":{
         "ms_id": None,
