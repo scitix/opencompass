@@ -4,6 +4,11 @@ DATASETS_MAPPING = {
         "hf_id": "scitix/mmlu_simple-evals",
         "local": "./data/mmlu_simple-evals/mmlu.csv",
     },
+    "scitix/drop_simple-evals": {
+        "ms_id": "scitix/drop_simple-evals",
+        "hf_id": "scitix/drop_simple-evals",
+        "local": "./data/drop_simple-evals/",
+    },
     "scitix/gpqa-diamond_simple-evals": {
         "ms_id": "scitix/gpqa-diamond_simple-evals",
         "hf_id": "scitix/gpqa-diamond_simple-evals",
