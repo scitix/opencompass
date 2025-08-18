@@ -1,22 +1,27 @@
 DATASETS_MAPPING = {
     "scitix/mmlu_simple-evals": {
-        "ms_id": "scitix/mmlu_simple-evals",
-        "hf_id": "scitix/mmlu_simple-evals",
+        "ms_id": None,
+        "hf_id": None,
         "local": "./data/mmlu_simple-evals/mmlu.csv",
     },
+    "scitix/mmlu-redux_zero-eval": {
+        "ms_id": None,
+        "hf_id": "WildEval/ZeroEval",
+        "local": "./data/mmlu-redux_zero-eval/",
+    },
     "scitix/drop_simple-evals": {
-        "ms_id": "scitix/drop_simple-evals",
-        "hf_id": "scitix/drop_simple-evals",
+        "ms_id": None,
+        "hf_id": None,
         "local": "./data/drop_simple-evals/",
     },
     "scitix/gpqa-diamond_simple-evals": {
-        "ms_id": "scitix/gpqa-diamond_simple-evals",
-        "hf_id": "scitix/gpqa-diamond_simple-evals",
+        "ms_id": None,
+        "hf_id": None,
         "local": "./data/gpqa-diamond_simple-evals/gpqa_diamond.csv",
     },
     "scitix/simpleqa_simple-evals": {
-        "ms_id": "scitix/simpleqa_simple-evals",
-        "hf_id": "scitix/simpleqa_simple-evals",
+        "ms_id": None,
+        "hf_id": None,
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
     },
     # KLCE Datasets
