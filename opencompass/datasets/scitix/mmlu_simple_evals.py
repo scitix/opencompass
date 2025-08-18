@@ -1,5 +1,6 @@
 import random
 import re
+from collections import defaultdict
 
 from datasets import Dataset, load_dataset
 
@@ -109,53 +110,40 @@ class MMLUSimpleEvalsEvaluator(BaseEvaluator):
             "world_religions": "humanities",
         }
 
-    def score(self, predictions, references):
+    def score(self, predictions, references, test_set: Dataset) -> dict:
         if len(predictions) != len(references):
             return {"error": "Predictions and references must have the same length"}
 
-        details = []
         correct = 0
-        for pred, ref in zip(predictions, references):
-            is_correct = pred == ref
+        details = []
+        category_metrics = defaultdict(lambda: {"correct": 0, "total": 0})
+        for prediction, reference, sample in zip(predictions, references, test_set):
+            subject = sample.get("Subject", "unknown")
+            category = self.subject2category.get(subject, "other")
+
+            is_correct = prediction == reference
             if is_correct:
                 correct += 1
+                category_metrics[category]["correct"] += 1
+            category_metrics[category]["total"] += 1
+
             details.append(
                 {
-                    "prediction": pred,
-                    "answer": ref,
+                    "prediction": prediction,
+                    "answer": reference,
                     "correct": is_correct,
+                    "subject": subject,
+                    "category": category,
                 }
             )
 
         score = 100 * correct / len(predictions) if predictions else 0.0
-        return {"score": score, "details": details}
-
-    def evaluate(self, k: int, n: int, original_dataset: Dataset, **score_kwargs):
-        base_results = super().evaluate(k, n, original_dataset, **score_kwargs)
-
-        details = base_results.get("details", [])
-        if not details:
-            return base_results
-
-        # `original_dataset` will repeat `n` times
-        num_samples = len(details)
-        if num_samples == 0:
-            return base_results
-
-        num_fully_correct = 0
-        for i, detail in enumerate(details):
-            # add subject and category to each detail
-            original_sample = original_dataset[i]
-            subject = original_sample.get("Subject", "")
-            detail["subject"] = subject
-            detail["category"] = self.subject2category.get(subject, "other")
-
-            is_all_n_correct = all(detail.get("correct", []))
-            if is_all_n_correct:
-                num_fully_correct += 1
-            detail["all_n_correct"] = is_all_n_correct
-
-        new_score = 100 * num_fully_correct / num_samples if num_samples > 0 else 0
-        base_results["all_n_correct_score"] = new_score
-
-        return base_results
+        results = {"score": score, "details": details}
+        for category, metrics in category_metrics.items():
+            category_score = (
+                100 * metrics["correct"] / metrics["total"]
+                if metrics["total"] > 0
+                else 0.0
+            )
+            results[f"score_{category}"] = category_score
+        return results

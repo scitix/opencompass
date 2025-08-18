@@ -276,15 +276,15 @@ class DropSimpleEvalsEvaluator(BaseEvaluator):
         total_em = 0
         total_f1 = 0
         count = 0
-        for pred, ref in zip(predictions, references):
-            answers = ref.split("|")
-            em, f1 = drop_metric(pred, answers)
+        for prediction, reference in zip(predictions, references):
+            answers = reference.split("|")
+            em, f1 = drop_metric(prediction, answers)
             total_em += em
             total_f1 += f1
             count += 1
             details.append(
                 {
-                    "prediction": pred,
+                    "prediction": prediction,
                     "answers": answers,
                     "em": em,
                     "f1": f1,

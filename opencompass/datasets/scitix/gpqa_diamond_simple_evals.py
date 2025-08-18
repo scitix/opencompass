@@ -6,7 +6,7 @@ from datasets import Dataset, load_dataset
 
 from opencompass.datasets.base import BaseDataset
 from opencompass.openicl.icl_evaluator import BaseEvaluator
-from opencompass.registry import LOAD_DATASET, TEXT_POSTPROCESSORS
+from opencompass.registry import LOAD_DATASET
 from opencompass.utils import get_data_path
 
 from .simple_evals import ANSWER_PATTERN_MULTICHOICE
@@ -60,58 +60,27 @@ class GPQADiamondSimpleEvalsDataset(BaseDataset):
         return dataset
 
 
-@TEXT_POSTPROCESSORS.register_module("gpqa_diamond_simple_evals")
-def gpqa_diamond_postprocess(response_text: str) -> str:
-    match = re.search(ANSWER_PATTERN_MULTICHOICE, response_text)
-    extracted_answer = match.group(1) if match else ""
-    return extracted_answer
-
-
 class GPQADiamondSimpleEvalsEvaluator(BaseEvaluator):
-    def __init__(self):
-        super().__init__(pred_postprocessor={"type": "gpqa_diamond_simple_evals"})
-
-    def score(self, predictions, references):
+    def score(self, predictions, references) -> dict:
         if len(predictions) != len(references):
             return {"error": "Predictions and references must have the same length"}
 
         details = []
         correct = 0
-        for pred, ref in zip(predictions, references):
-            is_correct = pred == ref
+        for prediction, reference in zip(predictions, references):
+            match = re.search(ANSWER_PATTERN_MULTICHOICE, prediction)
+            extracted_answer = match.group(1) if match else ""
+            is_correct = extracted_answer == reference
             if is_correct:
                 correct += 1
             details.append(
                 {
-                    "prediction": pred,
-                    "answer": ref,
+                    "prediction": prediction,
+                    "answer": reference,
                     "correct": is_correct,
+                    "chars": len(prediction),
                 }
             )
 
         score = 100 * correct / len(predictions) if predictions else 0.0
         return {"score": score, "details": details}
-
-    def evaluate(self, k: int, n: int, original_dataset: Dataset, **score_kwargs):
-        base_results = super().evaluate(k, n, original_dataset, **score_kwargs)
-
-        details = base_results.get("details", [])
-        if not details:
-            return base_results
-
-        # `original_dataset` will repeat `n` times
-        num_samples = len(details)
-        if num_samples == 0:
-            return base_results
-
-        num_fully_correct = 0
-        for i, detail in enumerate(details):
-            is_all_n_correct = all(detail.get("correct", []))
-            if is_all_n_correct:
-                num_fully_correct += 1
-            detail["all_n_correct"] = is_all_n_correct
-
-        new_score = 100 * num_fully_correct / num_samples if num_samples > 0 else 0
-        base_results["all_n_correct_score"] = new_score
-
-        return base_results
