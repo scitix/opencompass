@@ -3,6 +3,7 @@ from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
     GPQADiamondSimpleEvalsEvaluator,
 )
+from .ifeval import IFEvalDataset, IFEvalEvaluator
 from .mmlu_redux_zero_eval import (
     MMLUReduxZeroEvalDataset,
     MMLUReduxZeroEvalEvaluator,
@@ -16,6 +17,8 @@ __all__ = [
     "DropSimpleEvalsEvaluator",
     "GPQADiamondSimpleEvalsDataset",
     "GPQADiamondSimpleEvalsEvaluator",
+    "IFEvalDataset",
+    "IFEvalEvaluator",
     "MMLUSimpleEvalsDataset",
     "MMLUSimpleEvalsEvaluator",
     "MMLUReduxZeroEvalDataset",

@@ -14,6 +14,11 @@ DATASETS_MAPPING = {
         "hf_id": None,
         "local": "./data/drop_simple-evals/",
     },
+    "scitix/ifeval": {
+        "ms_id": None,
+        "hf_id": None,
+        "local": "./data/ifeval/",
+    },
     "scitix/gpqa-diamond_simple-evals": {
         "ms_id": None,
         "hf_id": None,
