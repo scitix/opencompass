@@ -62,4 +62,4 @@ eval = dict(
     ),
 )
 
-work_dir = "./outputs/gpqa_diamond"
+work_dir = "./outputs/gpqa-diamond"

@@ -1,4 +1,4 @@
-from opencompass.datasets.scitix import DropSimpleEvalsDataset, DropSimpleEvalsEvaluator
+from opencompass.datasets.scitix import DROPSimpleEvalsDataset, DROPSimpleEvalsEvaluator
 from opencompass.openicl.icl_inferencer import GenInferencer
 from opencompass.openicl.icl_prompt_template import PromptTemplate
 from opencompass.openicl.icl_retriever import RandomRetriever
@@ -46,14 +46,14 @@ drop_infer_cfg = dict(
     inferencer=dict(type=GenInferencer),
 )
 drop_eval_cfg = dict(
-    evaluator=dict(type=DropSimpleEvalsEvaluator),
+    evaluator=dict(type=DROPSimpleEvalsEvaluator),
     pred_role="BOT",
 )
 
 drop_datasets = [
     dict(
         abbr="drop_simple-evals",
-        type=DropSimpleEvalsDataset,
+        type=DROPSimpleEvalsDataset,
         path="scitix/drop_simple-evals",
         reader_cfg=drop_reader_cfg,
         infer_cfg=drop_infer_cfg,

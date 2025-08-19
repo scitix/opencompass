@@ -235,7 +235,7 @@ def drop_metric(sample: str, reference: list[str]) -> tuple[float, float]:
 
 
 @LOAD_DATASET.register_module()
-class DropSimpleEvalsDataset(BaseDataset):
+class DROPSimpleEvalsDataset(BaseDataset):
     @staticmethod
     def load(path: str, num_examples: int | None = None) -> DatasetDict:
         data_dir = get_data_path(path)
@@ -261,10 +261,10 @@ class DropSimpleEvalsDataset(BaseDataset):
 @TEXT_POSTPROCESSORS.register_module("drop_simple_evals")
 def drop_postprocess(response_text: str) -> str:
     match = re.search(ANSWER_PATTERN, response_text)
-    return match.group(1).strip() if match else response_text
+    return match.group(1) if match else response_text
 
 
-class DropSimpleEvalsEvaluator(BaseEvaluator):
+class DROPSimpleEvalsEvaluator(BaseEvaluator):
     def __init__(self):
         super().__init__(pred_postprocessor={"type": "drop_simple_evals"})
 

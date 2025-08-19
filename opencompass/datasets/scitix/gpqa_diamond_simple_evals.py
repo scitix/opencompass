@@ -6,7 +6,7 @@ from datasets import Dataset, load_dataset
 
 from opencompass.datasets.base import BaseDataset
 from opencompass.openicl.icl_evaluator import BaseEvaluator
-from opencompass.registry import LOAD_DATASET
+from opencompass.registry import LOAD_DATASET, TEXT_POSTPROCESSORS
 from opencompass.utils import get_data_path
 
 from .simple_evals import ANSWER_PATTERN_MULTICHOICE
@@ -60,7 +60,16 @@ class GPQADiamondSimpleEvalsDataset(BaseDataset):
         return dataset
 
 
+@TEXT_POSTPROCESSORS.register_module("gpqa_diamond_simple_evals")
+def gpqa_diamond_postprocess(response_text: str) -> str:
+    match = re.search(ANSWER_PATTERN_MULTICHOICE, response_text)
+    return match.group(1) if match else ""
+
+
 class GPQADiamondSimpleEvalsEvaluator(BaseEvaluator):
+    def __init__(self):
+        super().__init__(pred_postprocessor={"type": "gpqa_diamond_simple_evals"})
+
     def score(self, predictions, references) -> dict:
         if len(predictions) != len(references):
             return {"error": "Predictions and references must have the same length"}
@@ -68,9 +77,7 @@ class GPQADiamondSimpleEvalsEvaluator(BaseEvaluator):
         details = []
         correct = 0
         for prediction, reference in zip(predictions, references):
-            match = re.search(ANSWER_PATTERN_MULTICHOICE, prediction)
-            extracted_answer = match.group(1) if match else ""
-            is_correct = extracted_answer == reference
+            is_correct = prediction == reference
             if is_correct:
                 correct += 1
             details.append(

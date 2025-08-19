@@ -1,4 +1,4 @@
-from .drop_simple_evals import DropSimpleEvalsDataset, DropSimpleEvalsEvaluator
+from .drop_simple_evals import DROPSimpleEvalsDataset, DROPSimpleEvalsEvaluator
 from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
     GPQADiamondSimpleEvalsEvaluator,
@@ -13,8 +13,8 @@ from .mmlu_simple_evals import MMLUSimpleEvalsDataset, MMLUSimpleEvalsEvaluator
 from .simpleqa_simple_evals import SimpleQASimpleEvalsDataset, simpleqa_postprocess
 
 __all__ = [
-    "DropSimpleEvalsDataset",
-    "DropSimpleEvalsEvaluator",
+    "DROPSimpleEvalsDataset",
+    "DROPSimpleEvalsEvaluator",
     "GPQADiamondSimpleEvalsDataset",
     "GPQADiamondSimpleEvalsEvaluator",
     "IFEvalDataset",
