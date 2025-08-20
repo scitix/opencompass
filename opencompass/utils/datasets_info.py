@@ -31,6 +31,11 @@ DATASETS_MAPPING = {
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
     },
     # Math
+    "scitix/aime-2024": {
+        "ms_id": None,
+        "hf_id": "HuggingFaceH4/aime_2024",
+        "local": "./data/aime-2024/",
+    },
     "scitix/math-500": {
         "ms_id": None,
         "hf_id": None,
