@@ -1,4 +1,5 @@
 DATASETS_MAPPING = {
+    # English
     "scitix/mmlu_simple-evals": {
         "ms_id": None,
         "hf_id": None,
@@ -28,6 +29,12 @@ DATASETS_MAPPING = {
         "ms_id": None,
         "hf_id": None,
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
+    },
+    # Math
+    "scitix/math-500": {
+        "ms_id": None,
+        "hf_id": None,
+        "local": "./data/math-500/",
     },
     # KLCE Datasets
     "opencompass/kcle":{

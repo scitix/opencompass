@@ -6,14 +6,27 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.ifeval_gen_353ae7 import ifeval_datasets
+    # --- openai-style prompt ---
+    from opencompass.configs.datasets.scitix.math_500_gen_9882d4 import (
+        math_500_datasets,
+    )
+
+    # --- qwen-style prompt ---
+    # from opencompass.configs.datasets.scitix.math_500_gen_349c4e import (
+    #     math_500_datasets,
+    # )
+
+    # --- deepseek-style prompt ---
+    # from opencompass.configs.datasets.scitix.math_500_gen_11c4b5 import (
+    #     math_500_datasets,
+    # )
 
 # datasets
-for ifeval_dataset in ifeval_datasets:
-    ifeval_dataset["n"] = 1
-    # ifeval_dataset["num_examples"] = 10
+for math_500_dataset in math_500_datasets:
+    math_500_dataset["n"] = 1
+    # math_500_dataset["num_examples"] = 50
 
-datasets = [*ifeval_datasets]
+datasets = [*math_500_datasets]
 
 # models
 qwen2_5_72b_instruct_api = dict(
@@ -31,7 +44,7 @@ qwen2_5_72b_instruct = dict(
     **qwen2_5_72b_instruct_api,
     query_per_second=32,
     batch_size=128,
-    temperature=0.0,
+    temperature=0.0,  # greedy decoding
     max_out_len=8192,
 )
 
@@ -59,4 +72,5 @@ eval = dict(
     ),
 )
 
-work_dir = "./outputs/ifeval"
+work_dir = "./outputs/math-500"
+station_path = "./stations"
