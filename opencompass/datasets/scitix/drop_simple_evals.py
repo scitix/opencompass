@@ -237,7 +237,9 @@ def drop_metric(sample: str, reference: list[str]) -> tuple[float, float]:
 @LOAD_DATASET.register_module()
 class DROPSimpleEvalsDataset(BaseDataset):
     @staticmethod
-    def load(path: str, num_examples: int | None = None) -> DatasetDict:
+    def load(
+        path: str, n_repeats: int = 1, num_examples: int | None = None, seed: int = 42
+    ) -> DatasetDict:
         data_dir = get_data_path(path)
         train_path = os.path.join(data_dir, "drop_v0_train.jsonl")
         test_path = os.path.join(data_dir, "drop_v0_dev.jsonl")
@@ -249,11 +251,18 @@ class DROPSimpleEvalsDataset(BaseDataset):
 
         # restrict to a subset of the data for debugging
         if num_examples is not None:
+            assert n_repeats == 1, "n_repeats only supported for num_examples = None"
             test_ds = dataset["test"]
-            rng = random.Random(42)
+            rng = random.Random(seed)
             indices = rng.sample(range(len(test_ds)), min(num_examples, len(test_ds)))
             test_ds = test_ds.select(indices)
             dataset["test"] = test_ds
+
+        # repeat examples
+        if n_repeats > 1:
+            original_indices = list(range(len(dataset)))
+            repeated_indices = original_indices * n_repeats
+            dataset = dataset.select(repeated_indices)
 
         return dataset
 

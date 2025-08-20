@@ -21,15 +21,26 @@ from .simple_evals import (
 @LOAD_DATASET.register_module()
 class MMLUSimpleEvalsDataset(BaseDataset):
     @staticmethod
-    def load(path: str, num_examples: int | None = None) -> Dataset:
+    def load(
+        path: str, n_repeats: int = 1, num_examples: int | None = None, seed: int = 0
+    ) -> Dataset:
         path = get_data_path(path)
         data_files = {"test": path}
         dataset = load_dataset("csv", data_files=data_files, split="test")
+
         # restrict to a subset of the data for debugging
         if num_examples is not None:
-            rng = random.Random(0)
+            assert n_repeats == 1, "n_repeats only supported for num_examples = None"
+            rng = random.Random(seed)
             indices = rng.sample(range(len(dataset)), min(num_examples, len(dataset)))
             dataset = dataset.select(indices)
+
+        # repeat examples
+        if n_repeats > 1:
+            original_indices = list(range(len(dataset)))
+            repeated_indices = original_indices * n_repeats
+            dataset = dataset.select(repeated_indices)
+
         return dataset
 
 

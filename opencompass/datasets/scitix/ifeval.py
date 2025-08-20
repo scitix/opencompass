@@ -18,15 +18,26 @@ from .instruction_following_eval.evaluation_lib import (
 @LOAD_DATASET.register_module()
 class IFEvalDataset(BaseDataset):
     @staticmethod
-    def load(path: str, num_examples: int | None = None) -> Dataset:
+    def load(
+        path: str, n_repeats: int = 1, num_examples: int | None = None, seed: int = 3407
+    ) -> Dataset:
         path = get_data_path(path)
         dataset = load_dataset(path, split="train")
+
         # restrict to a subset of the data for debugging
         if num_examples is not None:
-            shuffled_dataset = dataset.shuffle(seed=3407)
+            assert n_repeats == 1, "n_repeats only supported for num_examples = None"
+            shuffled_dataset = dataset.shuffle(seed=seed)
             dataset = shuffled_dataset.select(
                 range(min(num_examples, len(shuffled_dataset)))
             )
+
+        # repeat examples
+        if n_repeats > 1:
+            original_indices = list(range(len(dataset)))
+            repeated_indices = original_indices * n_repeats
+            dataset = dataset.select(repeated_indices)
+
         return dataset
 
 

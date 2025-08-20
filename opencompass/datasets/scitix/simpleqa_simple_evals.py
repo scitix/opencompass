@@ -12,12 +12,14 @@ from opencompass.utils import get_data_path
 @LOAD_DATASET.register_module()
 class SimpleQASimpleEvalsDataset(BaseDataset):
     @staticmethod
-    def load(path: str, n_repeats: int = 1, num_examples: int | None = None) -> Dataset:
+    def load(
+        path: str, n_repeats: int = 1, num_examples: int | None = None, seed: int = 0
+    ) -> Dataset:
         path = get_data_path(path)
         data_files = {"test": path}
         dataset = load_dataset("csv", data_files=data_files, split="test")
 
-        rng = random.Random(0)
+        rng = random.Random(seed)
         # restrict to a subset of the data for debugging
         if num_examples is not None:
             assert n_repeats == 1, "n_repeats only supported for num_examples = None"
