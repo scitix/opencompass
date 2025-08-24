@@ -1,4 +1,5 @@
 from .aime_2024 import AIME2024Dataset, AIME2024Evaluator
+from .cnmo_2024 import CNMO2024Dataset, CNMO2024Evaluator
 from .drop_simple_evals import DROPSimpleEvalsDataset, DROPSimpleEvalsEvaluator
 from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
@@ -17,6 +18,8 @@ from .simpleqa_simple_evals import SimpleQASimpleEvalsDataset, simpleqa_postproc
 __all__ = [
     "AIME2024Dataset",
     "AIME2024Evaluator",
+    "CNMO2024Dataset",
+    "CNMO2024Evaluator",
     "DROPSimpleEvalsDataset",
     "DROPSimpleEvalsEvaluator",
     "GPQADiamondSimpleEvalsDataset",

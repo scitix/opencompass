@@ -41,6 +41,11 @@ DATASETS_MAPPING = {
         "hf_id": None,
         "local": "./data/math-500/",
     },
+    "scitix/cnmo-2024": {
+        "ms_id": None,
+        "hf_id": "opencompass/LiveMathBench",
+        "local": "./data/LiveMathBench/",
+    },
     # KLCE Datasets
     "opencompass/kcle":{
         "ms_id": None,
