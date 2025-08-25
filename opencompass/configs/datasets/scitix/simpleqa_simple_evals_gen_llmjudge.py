@@ -1,6 +1,9 @@
 import os
 
-from opencompass.datasets.scitix import SimpleQASimpleEvalsDataset, simpleqa_postprocess
+from opencompass.datasets.scitix import (
+    SimpleQASimpleEvalsDataset,
+    simpleqa_llmjudge_postprocess,
+)
 from opencompass.evaluator import GenericLLMEvaluator
 from opencompass.models import OpenAISDKStreaming
 from opencompass.openicl.icl_inferencer import GenInferencer
@@ -117,6 +120,7 @@ simpleqa_eval_cfg = dict(
             ),
         ),
         dataset_cfg=dict(
+            abbr="eval_simpleqa_simple-evals",
             type=SimpleQASimpleEvalsDataset,
             path="scitix/simpleqa_simple-evals",
             reader_cfg=simpleqa_reader_cfg,
@@ -137,7 +141,7 @@ simpleqa_eval_cfg = dict(
             # max_out_len=8192,
             # verbose=True,
         ),
-        dict_postprocessor=dict(type=simpleqa_postprocess),
+        dict_postprocessor=dict(type=simpleqa_llmjudge_postprocess),
     ),
     pred_role="BOT",
 )

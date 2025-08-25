@@ -6,14 +6,26 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.mmlu_redux_zero_eval_gen_f57253 import (
+    from opencompass.configs.datasets.scitix.mmlu_redux_zero_eval_gen import (
         mmlu_redux_datasets,
     )
 
 # datasets
 for mmlu_redux_dataset in mmlu_redux_datasets:
-    mmlu_redux_dataset["n"] = 1
-    # mmlu_redux_dataset["num_examples"] = 10
+    n = 1
+    n_repeats = 1
+    num_examples = None
+
+    mmlu_redux_dataset["n"] = n
+    mmlu_redux_dataset["n_repeats"] = n_repeats
+    mmlu_redux_dataset["num_examples"] = num_examples
+
+    if n > 1:
+        mmlu_redux_dataset["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        mmlu_redux_dataset["abbr"] += f"-r{n_repeats}"
+    if num_examples is not None:
+        mmlu_redux_dataset["abbr"] += f"-test{num_examples}"
 
 datasets = [*mmlu_redux_datasets]
 

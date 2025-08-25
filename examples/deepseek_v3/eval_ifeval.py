@@ -6,12 +6,24 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.ifeval_gen_353ae7 import ifeval_datasets
+    from opencompass.configs.datasets.scitix.ifeval_gen import ifeval_datasets
 
 # datasets
 for ifeval_dataset in ifeval_datasets:
-    ifeval_dataset["n"] = 1
-    # ifeval_dataset["num_examples"] = 10
+    n = 1
+    n_repeats = 1
+    num_examples = None
+
+    ifeval_dataset["n"] = n
+    ifeval_dataset["n_repeats"] = n_repeats
+    ifeval_dataset["num_examples"] = num_examples
+
+    if n > 1:
+        ifeval_dataset["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        ifeval_dataset["abbr"] += f"-r{n_repeats}"
+    if num_examples is not None:
+        ifeval_dataset["abbr"] += f"-test{num_examples}"
 
 datasets = [*ifeval_datasets]
 

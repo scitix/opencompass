@@ -7,24 +7,36 @@ from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
     # --- openai-style prompt ---
-    from opencompass.configs.datasets.scitix.math_500_gen_9882d4 import (
+    from opencompass.configs.datasets.scitix.math_500_gen_oai_style import (
         math_500_datasets,
     )
 
     # --- qwen-style prompt ---
-    # from opencompass.configs.datasets.scitix.math_500_gen_349c4e import (
+    # from opencompass.configs.datasets.scitix.math_500_gen_qwen_style import (
     #     math_500_datasets,
     # )
 
     # --- deepseek-style prompt ---
-    # from opencompass.configs.datasets.scitix.math_500_gen_11c4b5 import (
+    # from opencompass.configs.datasets.scitix.math_500_gen_ds_style import (
     #     math_500_datasets,
     # )
 
 # datasets
 for math_500_dataset in math_500_datasets:
-    math_500_dataset["n"] = 1
-    # math_500_dataset["num_examples"] = 50
+    n = 1
+    n_repeats = 1
+    num_examples = None
+
+    math_500_dataset["n"] = n
+    math_500_dataset["n_repeats"] = n_repeats
+    math_500_dataset["num_examples"] = num_examples
+
+    if n > 1:
+        math_500_dataset["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        math_500_dataset["abbr"] += f"-r{n_repeats}"
+    if num_examples is not None:
+        math_500_dataset["abbr"] += f"-test{num_examples}"
 
 datasets = [*math_500_datasets]
 

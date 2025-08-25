@@ -6,20 +6,39 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.simpleqa_simple_evals_gen_8a25ac import (
+    from opencompass.configs.datasets.scitix.simpleqa_simple_evals_gen_llmjudge import (
         simpleqa_datasets,
     )
 
 # datasets
 for simpleqa_dataset in simpleqa_datasets:
-    simpleqa_dataset["n"] = 1
-    # simpleqa_dataset["n_repeats"] = 1
-    # simpleqa_dataset["num_examples"] = 10
+    n = 1
+    n_repeats = 1
+    num_examples = None
 
+    simpleqa_dataset["n"] = n
+    simpleqa_dataset["n_repeats"] = n_repeats
+    simpleqa_dataset["num_examples"] = num_examples
     # for evaluator
     simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["n"] = 1
-    # simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["n_repeats"] = 1
-    # simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["num_examples"] = 10
+    simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["n_repeats"] = n_repeats
+    simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["num_examples"] = (
+        num_examples
+    )
+
+    if n > 1:
+        simpleqa_dataset["abbr"] += f"-n{n}"
+        simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        simpleqa_dataset["abbr"] += f"-r{n_repeats}"
+        simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["abbr"] += (
+            f"-r{n_repeats}"
+        )
+    if num_examples is not None:
+        simpleqa_dataset["abbr"] += f"-test{num_examples}"
+        simpleqa_dataset["eval_cfg"]["evaluator"]["dataset_cfg"]["abbr"] += (
+            f"-test{num_examples}"
+        )
 
 datasets = [*simpleqa_datasets]
 

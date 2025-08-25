@@ -6,14 +6,24 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.drop_simple_evals_gen_090634 import (
-        drop_datasets,
-    )
+    from opencompass.configs.datasets.scitix.drop_simple_evals_gen import drop_datasets
 
 # datasets
 for drop_dataset in drop_datasets:
-    drop_dataset["n"] = 1
-    # drop_dataset["num_examples"] = 10
+    n = 1
+    n_repeats = 1
+    num_examples = None
+
+    drop_dataset["n"] = n
+    drop_dataset["n_repeats"] = n_repeats
+    drop_dataset["num_examples"] = num_examples
+
+    if n > 1:
+        drop_dataset["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        drop_dataset["abbr"] += f"-r{n_repeats}"
+    if num_examples is not None:
+        drop_dataset["abbr"] += f"-test{num_examples}"
 
 datasets = [*drop_datasets]
 

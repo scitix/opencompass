@@ -88,3 +88,34 @@ class AIME2024Evaluator(BaseEvaluator):
 
         score = 100 * correct / len(predictions) if predictions else 0.0
         return {"score": score, "details": details}
+
+
+def aime_2024_llmjudge_postprocess(output: dict, output_path: str) -> dict:
+    matches = []
+    details = []
+
+    for k, v in output.items():
+        # 'prediction' here is the judge's raw output
+        judgement = v.get("prediction", "")
+        is_equal = judgement.lower().strip() == "yes"
+        matches.append(is_equal)
+
+        details.append(
+            {
+                "judgement": judgement,
+                "answer": v.get("gold", ""),
+                "equal": is_equal,
+            }
+        )
+
+    count = len(matches)
+    if count == 0:
+        return {
+            "accuracy": 0,
+            "details": [],
+        }
+
+    return {
+        "accuracy": sum(matches) * 100 / count,
+        "details": details,
+    }

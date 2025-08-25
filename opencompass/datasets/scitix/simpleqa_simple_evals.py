@@ -37,7 +37,7 @@ class SimpleQASimpleEvalsDataset(BaseDataset):
         return dataset
 
 
-def simpleqa_postprocess(output: dict, output_path: str) -> dict:
+def simpleqa_llmjudge_postprocess(output: dict, output_path: str) -> dict:
     details = []
     judged_answers = []
 

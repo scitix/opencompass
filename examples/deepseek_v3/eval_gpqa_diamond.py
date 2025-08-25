@@ -6,15 +6,26 @@ from opencompass.runners import LocalRunner
 from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
-    from opencompass.configs.datasets.scitix.gpqa_diamond_simple_evals_gen_761cfe import (
+    from opencompass.configs.datasets.scitix.gpqa_diamond_simple_evals_gen import (
         gpqa_diamond_datasets,
     )
 
 # datasets
 for gpqa_diamond_dataset in gpqa_diamond_datasets:
-    gpqa_diamond_dataset["n"] = 1
-    # gpqa_diamond_dataset["n_repeats"] = 1
-    # gpqa_diamond_dataset["num_examples"] = 10
+    n = 1
+    n_repeats = 4
+    num_examples = None
+
+    gpqa_diamond_dataset["n"] = n
+    gpqa_diamond_dataset["n_repeats"] = n_repeats
+    gpqa_diamond_dataset["num_examples"] = num_examples
+
+    if n > 1:
+        gpqa_diamond_dataset["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        gpqa_diamond_dataset["abbr"] += f"-r{n_repeats}"
+    if num_examples is not None:
+        gpqa_diamond_dataset["abbr"] += f"-test{num_examples}"
 
 datasets = [*gpqa_diamond_datasets]
 

@@ -7,25 +7,36 @@ from opencompass.tasks import OpenICLEvalTask, OpenICLInferTask
 
 with read_base():
     # --- openai-style prompt ---
-    from opencompass.configs.datasets.scitix.aime_2024_gen_9882d4 import (
+    from opencompass.configs.datasets.scitix.aime_2024_gen_oai_style import (
         aime_2024_datasets,
     )
 
     # --- qwen-style prompt ---
-    # from opencompass.configs.datasets.scitix.aime_2024_gen_349c4e import (
+    # from opencompass.configs.datasets.scitix.aime_2024_gen_qwen_style import (
     #     aime_2024_datasets,
     # )
 
     # --- deepseek-style prompt ---
-    # from opencompass.configs.datasets.scitix.aime_2024_gen_11c4b5 import (
+    # from opencompass.configs.datasets.scitix.aime_2024_gen_ds_style import (
     #     aime_2024_datasets,
     # )
 
 # datasets
 for aime_2024_dataset in aime_2024_datasets:
-    aime_2024_dataset["n"] = 16
-    aime_2024_dataset["n_repeats"] = 16
-    # aime_2024_dataset["num_examples"] = 10
+    n = 16
+    n_repeats = 1
+    num_examples = None
+
+    aime_2024_dataset["n"] = n
+    aime_2024_dataset["n_repeats"] = n_repeats
+    aime_2024_dataset["num_examples"] = num_examples
+
+    if n > 1:
+        aime_2024_dataset["abbr"] += f"-n{n}"
+    if n_repeats > 1:
+        aime_2024_dataset["abbr"] += f"-r{n_repeats}"
+    if num_examples is not None:
+        aime_2024_dataset["abbr"] += f"-test{num_examples}"
 
 datasets = [*aime_2024_datasets]
 
