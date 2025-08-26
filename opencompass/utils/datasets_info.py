@@ -30,6 +30,12 @@ DATASETS_MAPPING = {
         "hf_id": None,
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
     },
+    # Code
+    "scitix/human-eval": {
+        "ms_id": None,
+        "hf_id": "openai/openai_humaneval",
+        "local": "./data/human-eval",
+    },
     # Math
     "scitix/aime-2024": {
         "ms_id": None,
