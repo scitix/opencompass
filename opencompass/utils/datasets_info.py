@@ -52,6 +52,12 @@ DATASETS_MAPPING = {
         "hf_id": "opencompass/LiveMathBench",
         "local": "./data/LiveMathBench/",
     },
+    # CompassBench V1.3
+    "scitix/CompassBench-v1.3": {
+        "ms_id": None,
+        "hf_id": None,
+        "local": "./data/CompassBench/v1_3_data/",
+    },
     # KLCE Datasets
     "opencompass/kcle":{
         "ms_id": None,
