@@ -1,7 +1,7 @@
 # flake8: noqa: E501
 import copy
 import os.path as osp
-from itertools import combinations, product
+from itertools import combinations, permutations, product
 from typing import Dict, List, Optional, Tuple
 
 from mmengine.config import ConfigDict
@@ -191,14 +191,18 @@ class SubjectiveNaivePartitioner(NaivePartitioner):
         for dataset in datasets:
             mode = dataset['mode']
             infer_order = dataset.get('infer_order', None)
-            assert mode in ['singlescore', 'allpair', 'm2n', 'fixed']
+            assert mode in ['singlescore', 'allpair', 'm2n', 'fixed', 'allperm']
             assert infer_order in ['random', 'double', None]
             if mode == 'singlescore':
                 temp_models = models
+            elif mode == 'allperm':
+                assert len(models) > 1
+                temp_models = permutations(models, 2)
             else:
+                base_models = base_models or dataset['base_models']
                 temp_models = get_model_combinations(mode, models,
-                                                     dataset['base_models'],
-                                                     models)
+                                                     base_models,
+                                                     compare_models)
             model_dataset_combinations = [{
                 'models': temp_models,
                 'datasets': [dataset]

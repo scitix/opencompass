@@ -4,11 +4,27 @@ from .aime_2024 import (
     aime_2024_llmjudge_postprocess,
 )
 from .cnmo_2024 import CNMO2024Dataset, CNMO2024Evaluator
+from .compass_bench_v1_3_code import (
+    CompassBenchCodeDataset,
+    compass_bench_code_llmjudge_postprocess,
+)
+from .compass_bench_v1_3_instruct import (
+    CompassBenchInstructDataset,
+    compass_bench_instruct_llmjudge_postprocess,
+)
 from .compass_bench_v1_3_knowledge import (
     CompassBenchKnowledgeDataset,
     CompassBenchKnowledgeEvaluator,
 )
+from .compass_bench_v1_3_language import (
+    CompassBenchLanguageDataset,
+    compass_bench_language_llmjudge_postprocess,
+)
 from .compass_bench_v1_3_math import CompassBenchMathDataset, CompassBenchMathEvaluator
+from .compass_bench_v1_3_reasoning import (
+    CompassBenchReasoningDataset,
+    compass_bench_reasoning_llmjudge_postprocess,
+)
 from .drop_simple_evals import DROPSimpleEvalsDataset, DROPSimpleEvalsEvaluator
 from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
@@ -33,10 +49,14 @@ __all__ = [
     "AIME2024Evaluator",
     "CNMO2024Dataset",
     "CNMO2024Evaluator",
+    "CompassBenchCodeDataset",
+    "CompassBenchInstructDataset",
     "CompassBenchKnowledgeDataset",
     "CompassBenchKnowledgeEvaluator",
+    "CompassBenchLanguageDataset",
     "CompassBenchMathDataset",
     "CompassBenchMathEvaluator",
+    "CompassBenchReasoningDataset",
     "DROPSimpleEvalsDataset",
     "DROPSimpleEvalsEvaluator",
     "GPQADiamondSimpleEvalsDataset",
@@ -54,5 +74,9 @@ __all__ = [
     "MMLUReduxZeroEvalPromptTemplate",
     "SimpleQASimpleEvalsDataset",
     "aime_2024_llmjudge_postprocess",
+    "compass_bench_code_llmjudge_postprocess",
+    "compass_bench_instruct_llmjudge_postprocess",
+    "compass_bench_language_llmjudge_postprocess",
+    "compass_bench_reasoning_llmjudge_postprocess",
     "simpleqa_llmjudge_postprocess",
 ]
