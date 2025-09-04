@@ -58,6 +58,11 @@ DATASETS_MAPPING = {
         "hf_id": None,
         "local": "./data/CompassBench/v1_3_data/",
     },
+    "scitix/T-Eval": {
+        "ms_id": None,
+        "hf_id": "lovesnowbest/T-Eval",
+        "local": "./data/T-Eval",
+    },
     # KLCE Datasets
     "opencompass/kcle":{
         "ms_id": None,

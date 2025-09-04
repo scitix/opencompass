@@ -25,6 +25,22 @@ from .compass_bench_v1_3_reasoning import (
     CompassBenchReasoningDataset,
     compass_bench_reasoning_llmjudge_postprocess,
 )
+from .compass_bench_v1_3_t_eval_after_calling import (
+    CompassBenchTEvalAfterCallingDataset,
+    CompassBenchTEvalAfterCallingEvaluator,
+)
+from .compass_bench_v1_3_t_eval_at_calling import (
+    CompassBenchTEvalAtCallingDataset,
+    CompassBenchTEvalAtCallingEvaluator,
+)
+from .compass_bench_v1_3_t_eval_before_calling import (
+    CompassBenchTEvalBeforeCallingDataset,
+    CompassBenchTEvalBeforeCallingEvaluator,
+)
+from .compass_bench_v1_3_t_eval_plan import (
+    CompassBenchTEvalPlanDataset,
+    CompassBenchTEvalPlanEvaluator,
+)
 from .drop_simple_evals import DROPSimpleEvalsDataset, DROPSimpleEvalsEvaluator
 from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
@@ -57,6 +73,14 @@ __all__ = [
     "CompassBenchMathDataset",
     "CompassBenchMathEvaluator",
     "CompassBenchReasoningDataset",
+    "CompassBenchTEvalAfterCallingDataset",
+    "CompassBenchTEvalAfterCallingEvaluator",
+    "CompassBenchTEvalAtCallingDataset",
+    "CompassBenchTEvalAtCallingEvaluator",
+    "CompassBenchTEvalBeforeCallingDataset",
+    "CompassBenchTEvalBeforeCallingEvaluator",
+    "CompassBenchTEvalPlanDataset",
+    "CompassBenchTEvalPlanEvaluator",
     "DROPSimpleEvalsDataset",
     "DROPSimpleEvalsEvaluator",
     "GPQADiamondSimpleEvalsDataset",

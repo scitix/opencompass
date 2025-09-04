@@ -123,7 +123,7 @@ class DefaultSummarizer:
             inferencer = dataset.get('infer_cfg', {}).get('inferencer', {}).get('type', '')
             inferencer = inferencer if isinstance(inferencer, str) else inferencer.__name__
             dataset_abbr = dataset_abbr_from_cfg(dataset)
-            if 'GenInferencer' in inferencer:
+            if 'GenInferencer' in inferencer or 'ChatInferencer' in inferencer:
                 dataset_eval_mode[dataset_abbr] = 'gen'
             elif 'PPLInferencer' in inferencer:
                 dataset_eval_mode[dataset_abbr] = 'ppl'

@@ -543,6 +543,8 @@ class OpenAI(BaseAPIModel):
                     msg['role'] = 'assistant'
                 elif item['role'] == 'SYSTEM':
                     msg['role'] = 'system'
+                elif item['role'] == 'function':
+                    msg['role'] = 'function'
                 messages.append(msg)
             input_len = sum(
                 get_token_len_func(prompt) for prompt in processed_prompts)
