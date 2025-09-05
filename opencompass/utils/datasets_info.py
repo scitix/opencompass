@@ -61,7 +61,12 @@ DATASETS_MAPPING = {
     "scitix/T-Eval": {
         "ms_id": None,
         "hf_id": "lovesnowbest/T-Eval",
-        "local": "./data/T-Eval",
+        "local": "./data/T-Eval/",
+    },
+    "scitix/CIBench": {
+        "ms_id": None,
+        "hf_id": None,
+        "local": "./data/cibench_dataset/",
     },
     # KLCE Datasets
     "opencompass/kcle":{

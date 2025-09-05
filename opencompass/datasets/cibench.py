@@ -250,7 +250,7 @@ class CIBenchEvaluator(BaseEvaluator):
         assert lang in ['en', 'cn'], 'Only `en` and `cn` are supported.'
         self.lang = lang
         # TODO: should use work dir for this task.
-        self.output_dir = output_dir
+        self._output_dir = output_dir
         self.user_data_dir = self.check_user_data_dir(user_data_dir)
         self.with_ipynb = with_ipynb
         self.TAG_MAPPING = {
@@ -520,8 +520,14 @@ class CIBenchEvaluator(BaseEvaluator):
         All the needed files should be
         """
         # hard hack for get output dir from eval task
-        if hasattr(self, '_out_dir') and self.output_dir is None:
-            self.output_dir = self._out_dir
+        if hasattr(self, '_out_dir') and self._output_dir is None:
+            self._output_dir = self._out_dir
+    
+    @property
+    def output_dir(self):
+        """The final output directory for this evaluator."""
+        self.get_output_dir()
+        return self._output_dir
 
     def score(self, predictions: List, references: List, steps: List,
               origin_prompt: List):
