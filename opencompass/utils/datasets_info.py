@@ -36,6 +36,26 @@ DATASETS_MAPPING = {
         "hf_id": "openai/openai_humaneval",
         "local": "./data/human-eval",
     },
+    "scitix/lcb-code-generation": {
+        "ms_id": None,
+        "hf_id": "livecodebench/code_generation",
+        "local": "./data/lcb_code_generation/",
+    },
+    "scitix/lcb-code-generation-lite": {
+        "ms_id": None,
+        "hf_id": "livecodebench/code_generation_lite",
+        "local": "./data/lcb_code_generation_lite/",
+    },
+    "scitix/lcb-code-execution": {
+        "ms_id": None,
+        "hf_id": "livecodebench/execution-v2",
+        "local": "./data/lcb_code_execution/",
+    },
+    "scitix/lcb-test-generation": {
+        "ms_id": None,
+        "hf_id": "livecodebench/test_generation",
+        "local": "./data/lcb_test_generation/",
+    },
     # Math
     "scitix/aime-2024": {
         "ms_id": None,
@@ -51,6 +71,22 @@ DATASETS_MAPPING = {
         "ms_id": None,
         "hf_id": "opencompass/LiveMathBench",
         "local": "./data/LiveMathBench/",
+    },
+    # CompassAcademic
+    "scitix/aime-2025": {
+        "ms_id": "",
+        "hf_id": "opencompass/AIME2025",
+        "local": "./data/aime-2025/",
+    },
+    "scitix/mmlu-pro": {
+        "ms_id": "",
+        "hf_id": "TIGER-Lab/MMLU-Pro",
+        "local": "./data/mmlu-pro/",
+    },
+    "scitix/hle": {
+        "ms_id": "",
+        "hf_id": "cais/hle",
+        "local": "./data/hle/",
     },
     # CompassBench V1.3
     "scitix/CompassBench-v1.3": {

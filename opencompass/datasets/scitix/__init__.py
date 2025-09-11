@@ -3,6 +3,7 @@ from .aime_2024 import (
     AIME2024Evaluator,
     aime_2024_llmjudge_postprocess,
 )
+from .aime_2025 import AIME2025Dataset, AIME2025Evaluator
 from .cnmo_2024 import CNMO2024Dataset, CNMO2024Evaluator
 from .compass_bench_v1_3_code import (
     CompassBenchCodeDataset,
@@ -46,9 +47,15 @@ from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
     GPQADiamondSimpleEvalsEvaluator,
 )
+from .hle import HLEDataset
 from .human_eval import HumanEvalDataset, HumanEvalEvaluator
 from .ifeval import IFEvalDataset, IFEvalEvaluator
+from .livecodebench_code_generation import (
+    LCBCodeGenerationDataset,
+    LCBCodeGenerationEvaluator,
+)
 from .math_500 import MATH500Dataset, MATH500Evaluator
+from .mmlu_pro import MMLUProDataset, MMLUProEvaluator
 from .mmlu_redux_zero_eval import (
     MMLUReduxZeroEvalDataset,
     MMLUReduxZeroEvalEvaluator,
@@ -63,6 +70,8 @@ from .simpleqa_simple_evals import (
 __all__ = [
     "AIME2024Dataset",
     "AIME2024Evaluator",
+    "AIME2025Dataset",
+    "AIME2025Evaluator",
     "CNMO2024Dataset",
     "CNMO2024Evaluator",
     "CompassBenchCodeDataset",
@@ -85,12 +94,17 @@ __all__ = [
     "DROPSimpleEvalsEvaluator",
     "GPQADiamondSimpleEvalsDataset",
     "GPQADiamondSimpleEvalsEvaluator",
+    "HLEDataset",
     "HumanEvalDataset",
     "HumanEvalEvaluator",
     "IFEvalDataset",
     "IFEvalEvaluator",
+    "LCBCodeGenerationDataset",
+    "LCBCodeGenerationEvaluator",
     "MATH500Dataset",
     "MATH500Evaluator",
+    "MMLUProDataset",
+    "MMLUProEvaluator",
     "MMLUSimpleEvalsDataset",
     "MMLUSimpleEvalsEvaluator",
     "MMLUReduxZeroEvalDataset",
