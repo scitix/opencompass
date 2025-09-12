@@ -50,6 +50,10 @@ from .gpqa_diamond_simple_evals import (
 from .hle import HLEDataset
 from .human_eval import HumanEvalDataset, HumanEvalEvaluator
 from .ifeval import IFEvalDataset, IFEvalEvaluator
+from .livecodebench_code_execution import (
+    LCBCodeExecutionDataset,
+    LCBCodeExecutionEvaluator,
+)
 from .livecodebench_code_generation import (
     LCBCodeGenerationDataset,
     LCBCodeGenerationEvaluator,
@@ -99,6 +103,8 @@ __all__ = [
     "HumanEvalEvaluator",
     "IFEvalDataset",
     "IFEvalEvaluator",
+    "LCBCodeExecutionDataset",
+    "LCBCodeExecutionEvaluator",
     "LCBCodeGenerationDataset",
     "LCBCodeGenerationEvaluator",
     "MATH500Dataset",

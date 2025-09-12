@@ -15,8 +15,34 @@ from opencompass.openicl.icl_evaluator import BaseEvaluator
 from opencompass.registry import LOAD_DATASET, TEXT_POSTPROCESSORS
 from opencompass.utils import get_data_path
 
-from .livecodebench.prompts.code_generation import get_generic_question_template_answer
+from .livecodebench.prompts.code_generation import (
+    PromptConstants,
+    get_generic_question_template_answer,
+)
 from .livecodebench.utils.extraction_utils import extract_code
+
+VERSION_FILES = {
+    "release_v0": [],  # placeholder for initial version
+    "release_v1": ["test.jsonl"],
+    "release_v2": ["test.jsonl", "test2.jsonl"],
+    "release_v3": ["test.jsonl", "test2.jsonl", "test3.jsonl"],
+    "release_v4": ["test.jsonl", "test2.jsonl", "test3.jsonl", "test4.jsonl"],
+    "release_v5": [
+        "test.jsonl",
+        "test2.jsonl",
+        "test3.jsonl",
+        "test4.jsonl",
+        "test5.jsonl",
+    ],
+    "release_v6": [
+        "test.jsonl",
+        "test2.jsonl",
+        "test3.jsonl",
+        "test4.jsonl",
+        "test5.jsonl",
+        "test6.jsonl",
+    ],
+}
 
 
 @LOAD_DATASET.register_module()
@@ -24,23 +50,28 @@ class LCBCodeGenerationDataset(BaseDataset):
     @staticmethod
     def load(
         path: str,
-        version_tag: str = "release_v1",
+        version_tag: str = "release_v1",  # 'release_vX' or 'vX_vY'
         start_date: str | None = None,
         end_date: str | None = None,
+        cot: bool = False,
         n_repeats: int = 1,
         num_examples: int | None = None,
         seed: int = 3407,
     ) -> Dataset:
         path = get_data_path(path)
         if os.path.isdir(path):
-            assert version_tag.startswith("release_v")
-
-            if version_tag == "release_v1":
-                path = os.path.join(path, "test.jsonl")
+            if version_tag in VERSION_FILES:
+                data_files = {
+                    "test": [os.path.join(path, f) for f in VERSION_FILES[version_tag]]
+                }
             else:
-                version = version_tag.replace("release_v", "")
-                path = os.path.join(path, f"test{version}.jsonl")
-            data_files = {"test": path}
+                # assume `version_tag` is in the form of 'vX_vY'
+                start_v, end_v = version_tag.split("_")
+                # include all files in [start_v, end_v]
+                start_int, end_int = (int(start_v[1:]) - 1, int(end_v[1:]))
+                start_key, end_key = f"release_v{start_int}", f"release_v{end_int}"
+                files = set(VERSION_FILES[end_key]) - set(VERSION_FILES[start_key])
+                data_files = {"test": [os.path.join(path, f) for f in files]}
             dataset = load_dataset("json", data_files=data_files, split="test")
         else:
             dataset = load_dataset(
@@ -50,14 +81,10 @@ class LCBCodeGenerationDataset(BaseDataset):
         # filter by date first
         if start_date is not None:
             p_start_date = datetime.strptime(start_date, "%Y-%m-%d")
-            dataset = dataset.filter(
-                lambda e: p_start_date <= datetime.fromisoformat(e["contest_date"])
-            )
+            dataset = dataset.filter(lambda e: p_start_date <= e["contest_date"])
         if end_date is not None:
             p_end_date = datetime.strptime(end_date, "%Y-%m-%d")
-            dataset = dataset.filter(
-                lambda e: datetime.fromisoformat(e["contest_date"]) <= p_end_date
-            )
+            dataset = dataset.filter(lambda e: e["contest_date"] <= p_end_date)
 
         def _preprocess_sample(sample):
             # prompt
@@ -65,8 +92,14 @@ class LCBCodeGenerationDataset(BaseDataset):
                 "question_content": sample["question_content"],
                 "starter_code": sample["starter_code"],
             }
-            prompt = get_generic_question_template_answer(question)
+            prompt = get_generic_question_template_answer(question, cot)
             sample["prompt"] = prompt
+            dialog = [
+                {"role": "system", "content": PromptConstants.SYSTEM_MESSAGE_GENERIC},
+                {"role": "user", "content": prompt},
+                {"role": "assistant", "content": ""},
+            ]
+            sample["dialog"] = dialog
 
             # test cases
             public_test_cases = json.loads(sample["public_test_cases"])
@@ -154,6 +187,7 @@ class LCBCodeGenerationEvaluator(BaseEvaluator):
         num_total_problems = len(grouped_results)
         if num_total_problems == 0:
             pass_at_k = 0.0
+            num_timeout = 0
         else:
             num_correct = sum(
                 1
@@ -161,11 +195,20 @@ class LCBCodeGenerationEvaluator(BaseEvaluator):
                 if any(attempt["correct"] for attempt in attempts)
             )
             pass_at_k = num_correct * 100 / num_total_problems
+            num_timeout = sum(
+                1
+                for attempts in grouped_results.values()
+                if all("timeout" in attempt["msg"].lower() for attempt in attempts)
+            )
 
         details = [
             attempt for attempts in grouped_results.values() for attempt in attempts
         ]
-        return {f"pass@{self.k}": pass_at_k, "details": details}
+        return {
+            f"pass@{self.k}": pass_at_k,
+            "num_timeout": num_timeout,
+            "details": details,
+        }
 
     async def _evaluate_all(
         self, predictions: list[str], test_set: Dataset
