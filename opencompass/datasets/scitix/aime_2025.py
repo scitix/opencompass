@@ -63,10 +63,6 @@ class AIME2025Evaluator(BaseEvaluator):
         super().__init__(pred_postprocessor=pred_postprocessor)
 
     def score(self, predictions, references) -> dict:
-        print(len(predictions), len(references))
-        print(predictions)
-        print(references)
-
         if len(predictions) != len(references):
             return {"error": "Predictions and the references must have the same length"}
 

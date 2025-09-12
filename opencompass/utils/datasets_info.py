@@ -30,6 +30,12 @@ DATASETS_MAPPING = {
         "hf_id": None,
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
     },
+    # Chinese
+    "scitix/c-eval": {
+        "ms_id": None,
+        "hf_id": "ceval/ceval-exam",
+        "local": "./data/c-eval/",
+    },
     # Code
     "scitix/human-eval": {
         "ms_id": None,
