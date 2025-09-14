@@ -5,6 +5,7 @@ from .aime_2024 import (
 )
 from .aime_2025 import AIME2025Dataset, AIME2025Evaluator
 from .c_eval import CEvalDataset, CEvalEvaluator
+from .cluewsc import CLUEWSCDataset, CLUEWSCEvaluator
 from .cnmo_2024 import CNMO2024Dataset, CNMO2024Evaluator
 from .compass_bench_v1_3_code import (
     CompassBenchCodeDataset,
@@ -79,6 +80,8 @@ __all__ = [
     "AIME2025Evaluator",
     "CEvalDataset",
     "CEvalEvaluator",
+    "CLUEWSCDataset",
+    "CLUEWSCEvaluator",
     "CNMO2024Dataset",
     "CNMO2024Evaluator",
     "CompassBenchCodeDataset",

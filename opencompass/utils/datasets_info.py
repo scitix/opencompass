@@ -36,6 +36,11 @@ DATASETS_MAPPING = {
         "hf_id": "ceval/ceval-exam",
         "local": "./data/c-eval/",
     },
+    "scitix/cluewsc": {
+        "ms_id": None,
+        "hf_id": None,
+        "local": "./data/cluewsc/",  
+    },
     # Code
     "scitix/human-eval": {
         "ms_id": None,
