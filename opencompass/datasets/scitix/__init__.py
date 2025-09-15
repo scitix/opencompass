@@ -46,6 +46,7 @@ from .compass_bench_v1_3_t_eval_plan import (
     CompassBenchTEvalPlanEvaluator,
 )
 from .drop_simple_evals import DROPSimpleEvalsDataset, DROPSimpleEvalsEvaluator
+from .frames import FRAMESDataset, frames_llmjudge_postprocess
 from .gpqa_diamond_simple_evals import (
     GPQADiamondSimpleEvalsDataset,
     GPQADiamondSimpleEvalsEvaluator,
@@ -104,6 +105,8 @@ __all__ = [
     "CompassBenchTEvalPlanEvaluator",
     "DROPSimpleEvalsDataset",
     "DROPSimpleEvalsEvaluator",
+    "FRAMESDataset",
+    "FRAMESEvaluator",
     "GPQADiamondSimpleEvalsDataset",
     "GPQADiamondSimpleEvalsEvaluator",
     "HLEDataset",
@@ -131,5 +134,6 @@ __all__ = [
     "compass_bench_instruct_llmjudge_postprocess",
     "compass_bench_language_llmjudge_postprocess",
     "compass_bench_reasoning_llmjudge_postprocess",
+    "frames_llmjudge_postprocess",
     "simpleqa_llmjudge_postprocess",
 ]

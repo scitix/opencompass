@@ -30,6 +30,16 @@ DATASETS_MAPPING = {
         "hf_id": None,
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
     },
+    "scitix/frames": {
+        "ms_id": None,
+        "hf_id": "google/frames-benchmark",
+        "local": "./data/frames/",   
+    },
+    "scitix/longbench-v2": {
+        "ms_id": None,
+        "hf_id": "zai-org/LongBench-v2",
+        "local": "./data/LongBench-v2/",
+    },
     # Chinese
     "scitix/cluewsc": {
         "ms_id": None,
