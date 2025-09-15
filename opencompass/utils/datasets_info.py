@@ -31,15 +31,20 @@ DATASETS_MAPPING = {
         "local": "./data/simpleqa_simple-evals/simple_qa_test_set.csv",
     },
     # Chinese
+    "scitix/cluewsc": {
+        "ms_id": None,
+        "hf_id": None,
+        "local": "./data/cluewsc/",  
+    },
     "scitix/c-eval": {
         "ms_id": None,
         "hf_id": "ceval/ceval-exam",
         "local": "./data/c-eval/",
     },
-    "scitix/cluewsc": {
+    "scitix/c-simpleqa": {
         "ms_id": None,
-        "hf_id": None,
-        "local": "./data/cluewsc/",  
+        "hf_id": "OpenStellarTeam/Chinese-SimpleQA",
+        "local": "./data/c-simpleqa/",
     },
     # Code
     "scitix/human-eval": {

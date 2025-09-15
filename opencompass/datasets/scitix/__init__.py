@@ -5,6 +5,7 @@ from .aime_2024 import (
 )
 from .aime_2025 import AIME2025Dataset, AIME2025Evaluator
 from .c_eval import CEvalDataset, CEvalEvaluator
+from .c_simpleqa import CSimpleQADataset, c_simpleqa_llmjudge_postprocess
 from .cluewsc import CLUEWSCDataset, CLUEWSCEvaluator
 from .cnmo_2024 import CNMO2024Dataset, CNMO2024Evaluator
 from .compass_bench_v1_3_code import (
@@ -80,6 +81,7 @@ __all__ = [
     "AIME2025Evaluator",
     "CEvalDataset",
     "CEvalEvaluator",
+    "CSimpleQADataset",
     "CLUEWSCDataset",
     "CLUEWSCEvaluator",
     "CNMO2024Dataset",
@@ -124,6 +126,7 @@ __all__ = [
     "MMLUReduxZeroEvalPromptTemplate",
     "SimpleQASimpleEvalsDataset",
     "aime_2024_llmjudge_postprocess",
+    "c_simpleqa_llmjudge_postprocess",
     "compass_bench_code_llmjudge_postprocess",
     "compass_bench_instruct_llmjudge_postprocess",
     "compass_bench_language_llmjudge_postprocess",
