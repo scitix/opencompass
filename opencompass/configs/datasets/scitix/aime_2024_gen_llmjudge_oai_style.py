@@ -112,6 +112,13 @@ aime_2024_eval_cfg = dict(
         judge_cfg=dict(
             abbr="gpt-4o-2024-05-13",
             type=OpenAISDKStreaming,
+            meta_template=dict(
+                round=[
+                    dict(role="SYSTEM", api_role="SYSTEM"),
+                    dict(role="HUMAN", api_role="HUMAN"),
+                    dict(role="BOT", api_role="BOT", generate=True),
+                ]
+            ),
             openai_api_base=[
                 os.getenv("OC_JUDGE_API_BASE", "https://api.openai.com/v1")
             ],

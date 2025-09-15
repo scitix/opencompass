@@ -45,9 +45,18 @@ for cnmo_2024_dataset in cnmo_2024_datasets:
 datasets = [*cnmo_2024_datasets]
 
 # models
+api_meta_template = dict(
+    round=[
+        dict(role="SYSTEM", api_role="SYSTEM"),
+        dict(role="HUMAN", api_role="HUMAN"),
+        dict(role="BOT", api_role="BOT", generate=True),
+    ]
+)
+
 qwen2_5_72b_instruct_api = dict(
     abbr="Qwen2.5-72B-Instruct",
     type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
     openai_api_base=[
         "http://localhost:8000/v1",
     ],

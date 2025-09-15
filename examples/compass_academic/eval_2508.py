@@ -40,21 +40,24 @@ datasets = [
 ]
 
 # LLM judge config: using LLM to evaluate predictions
+api_meta_template = dict(
+    round=[
+        dict(role="SYSTEM", api_role="SYSTEM"),
+        dict(role="HUMAN", api_role="HUMAN"),
+        dict(role="BOT", api_role="BOT", generate=True),
+    ]
+)
+
 judge_cfg = dict(
     abbr="CompassVerifier-32B",
     type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
     openai_api_base=[
         "http://localhost:8000/v1",
     ],
     key="EMPTY",
     path="/volume/ai-infra/CompassVerifier-32B/",
     tokenizer_path="/volume/ai-infra/CompassVerifier-32B/",
-    meta_template=dict(
-        round=[
-            dict(role="HUMAN", api_role="HUMAN"),
-            dict(role="BOT", api_role="BOT", generate=True),
-        ]
-    ),
     query_per_second=32,
     batch_size=128,
     max_seq_len=32768,
@@ -93,6 +96,7 @@ for item in datasets:
 qwen2_5_72b_instruct = dict(
     abbr="Qwen2.5-72B-Instruct",
     type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
     openai_api_base=[
         "http://localhost:8000/v1",
     ],
@@ -108,6 +112,7 @@ qwen2_5_72b_instruct = dict(
 deepseek_v3_0324 = dict(
     abbr="DeepSeek-V3-0324",
     type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
     openai_api_base=[
         "https://console.siflow.cn/model-api",
     ],
@@ -123,6 +128,7 @@ deepseek_v3_0324 = dict(
 deepseek_v3_1 = dict(
     abbr="DeepSeek-V3.1",
     type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
     openai_api_base=[
         "http://localhost:8000/v1",
     ],
