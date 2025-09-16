@@ -35,6 +35,11 @@ DATASETS_MAPPING = {
         "hf_id": "google/frames-benchmark",
         "local": "./data/frames/",   
     },
+    "scitix/frames-wiki": {
+        "ms_id": None,
+        "hf_id": "parasail-ai/frames-benchmark-wikipedia",
+        "local": "./data/frames-benchmark-wikipedia/",   
+    },
     "scitix/longbench-v2": {
         "ms_id": None,
         "hf_id": "zai-org/LongBench-v2",
