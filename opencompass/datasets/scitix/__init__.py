@@ -62,6 +62,7 @@ from .livecodebench_code_generation import (
     LCBCodeGenerationDataset,
     LCBCodeGenerationEvaluator,
 )
+from .longbench_v2 import LongBenchV2Dataset, LongBenchV2Evaluator
 from .math_500 import MATH500Dataset, MATH500Evaluator
 from .mmlu_pro import MMLUProDataset, MMLUProEvaluator
 from .mmlu_redux_zero_eval import (
@@ -118,6 +119,8 @@ __all__ = [
     "LCBCodeExecutionEvaluator",
     "LCBCodeGenerationDataset",
     "LCBCodeGenerationEvaluator",
+    "LongBenchV2Dataset",
+    "LongBenchV2Evaluator",
     "MATH500Dataset",
     "MATH500Evaluator",
     "MMLUProDataset",

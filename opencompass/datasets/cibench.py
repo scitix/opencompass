@@ -115,7 +115,7 @@ class CIBenchDataset(BaseDataset):
     """Code Interpreter dataset for template dataset."""
 
     @staticmethod
-    def load(path: str, internet_check: bool = False):
+    def load(path: str, internet_check: bool = False, *args, **kwargs):
         """Load whole dataset.
 
         Args:
