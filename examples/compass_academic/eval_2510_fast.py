@@ -68,6 +68,7 @@ deepseek_v3_1 = dict(
     meta_template=api_meta_template,
     openai_api_base=[
         "http://eval-deepseek-v3-1.t-ai-infra-ylsun.svc/v1",
+        # "http://172.16.239.229:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-1",
@@ -75,15 +76,18 @@ deepseek_v3_1 = dict(
     query_per_second=32,
     batch_size=128,
     max_seq_len=32768,
-    max_out_len=32000,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 exp91 = dict(
     abbr="deepseek-v3-exp91",
     type=OpenAISDKStreaming,
     meta_template=api_meta_template,
     openai_api_base=[
-        "http://eval-deepseek-v3-exp91.t-ai-infra-ylsun.svc/v1",
+        # "http://eval-deepseek-v3-exp91.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.161.31:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-exp91",
@@ -91,15 +95,18 @@ exp91 = dict(
     query_per_second=32,
     batch_size=128,
     max_seq_len=32768,
-    max_out_len=32000,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 exp93 = dict(
     abbr="deepseek-v3-exp93",
     type=OpenAISDKStreaming,
     meta_template=api_meta_template,
     openai_api_base=[
-        "http://eval-deepseek-v3-exp93.t-ai-infra-ylsun.svc/v1",
+        # "http://eval-deepseek-v3-exp93.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.82.68:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-exp93",
@@ -107,47 +114,56 @@ exp93 = dict(
     query_per_second=32,
     batch_size=128,
     max_seq_len=32768,
-    max_out_len=32000,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 exp103 = dict(
     abbr="deepseek-v3-exp103",
     type=OpenAISDKStreaming,
     meta_template=api_meta_template,
     openai_api_base=[
-        "http://eval-deepseek-v3-exp103.t-ai-infra-ylsun.svc/v1",
+        # "http://eval-deepseek-v3-exp103.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.148.82:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-exp103",
     tokenizer_path="/everything/models/deepseek-ai/DeepSeek-V3.1-Base",
     query_per_second=32,
     batch_size=128,
-    max_seq_len=32768,
-    max_out_len=32000,
+    # max_seq_len=32768,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 exp108 = dict(
     abbr="deepseek-v3-exp108",
     type=OpenAISDKStreaming,
     meta_template=api_meta_template,
     openai_api_base=[
-        "http://eval-deepseek-v3-exp108.t-ai-infra-ylsun.svc/v1",
+        # "http://eval-deepseek-v3-exp108.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.45.236:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-exp108",
     tokenizer_path="/everything/models/deepseek-ai/DeepSeek-V3.1-Base",
     query_per_second=32,
     batch_size=128,
-    max_seq_len=32768,
-    max_out_len=32000,
+    # max_seq_len=32768,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 exp110 = dict(
     abbr="deepseek-v3-exp110",
     type=OpenAISDKStreaming,
     meta_template=api_meta_template,
     openai_api_base=[
-        "http://eval-deepseek-v3-exp110.t-ai-infra-ylsun.svc/v1",
+        # "http://eval-deepseek-v3-exp110.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.177.180:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-exp110",
@@ -155,15 +171,18 @@ exp110 = dict(
     query_per_second=32,
     batch_size=128,
     max_seq_len=32768,
-    max_out_len=32000,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 exp111 = dict(
     abbr="deepseek-v3-exp111",
     type=OpenAISDKStreaming,
     meta_template=api_meta_template,
     openai_api_base=[
-        "http://eval-deepseek-v3-exp111.t-ai-infra-ylsun.svc/v1",
+        # "http://eval-deepseek-v3-exp111.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.65.148:30000/v1",
     ],
     key="EMPTY",
     path="deepseek-v3-exp111",
@@ -171,11 +190,51 @@ exp111 = dict(
     query_per_second=32,
     batch_size=128,
     max_seq_len=32768,
-    max_out_len=32000,
+    max_out_len=8192,
     temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
+)
+exp260 = dict(
+    abbr="deepseek-v3-exp260",
+    type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
+    openai_api_base=[
+        # "http://eval-deepseek-v3-exp260.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.189.143:30000/v1",
+    ],
+    key="EMPTY",
+    path="deepseek-v3-exp260",
+    tokenizer_path="/everything/models/deepseek-ai/DeepSeek-V3.1-Base",
+    query_per_second=32,
+    batch_size=128,
+    max_seq_len=32768,
+    max_out_len=8192,
+    temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
+)
+exp262 = dict(
+    abbr="deepseek-v3-exp262",
+    type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
+    openai_api_base=[
+        # "http://eval-deepseek-v3-exp262.t-ai-infra-ylsun.svc/v1",
+        "http://172.16.63.126:30000/v1",
+    ],
+    key="EMPTY",
+    path="deepseek-v3-exp262",
+    tokenizer_path="/everything/models/deepseek-ai/DeepSeek-V3.1-Base",
+    query_per_second=32,
+    batch_size=128,
+    max_seq_len=32768,
+    max_out_len=8192,
+    temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 
-models = [deepseek_v3_1, exp91, exp93, exp103, exp108, exp110, exp111]
+models = [deepseek_v3_1, exp91, exp93, exp103, exp108, exp110, exp111, exp260, exp262]
 
 #######################################################################
 #                 PART 3  Inference/Evaluation Configuaration         #

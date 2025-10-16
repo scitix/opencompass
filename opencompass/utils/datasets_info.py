@@ -95,7 +95,7 @@ DATASETS_MAPPING = {
     },
     "scitix/math-500": {
         "ms_id": None,
-        "hf_id": None,
+        "hf_id": "HuggingFaceH4/MATH-500",
         "local": "./data/math-500/",
     },
     "scitix/cnmo-2024": {
