@@ -1,0 +1,11 @@
+{% for message in messages %}
+{% if message['role'] == 'system' %}
+{{ message['content'] }}
+{% elif message['role'] == 'user' %}
+Instruction: {{ message['content'] }}
+
+
+Response:{% elif message['role'] == 'assistant' %}
+{{ message['content'] }}
+{% endif %}
+{% endfor %}
