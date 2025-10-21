@@ -38,6 +38,14 @@ for compass_bench_v1_3_t_eval_dataset in compass_bench_v1_3_t_eval_datasets:
 datasets = [*compass_bench_v1_3_t_eval_datasets]
 
 # models
+api_meta_template = dict(
+    round=[
+        dict(role="SYSTEM", api_role="SYSTEM"),
+        dict(role="HUMAN", api_role="HUMAN"),
+        dict(role="BOT", api_role="BOT", generate=True),
+    ]
+)
+
 llama2_13b_api = dict(
     abbr="Llama2-13B",
     type=OpenAISDKStreaming,
@@ -57,88 +65,85 @@ llama2_13b = dict(
     max_out_len=2048,
 )
 
-qwen2_5_72b_instruct_api = dict(
+qwen2_5_72b_instruct = dict(
     abbr="Qwen2.5-72B-Instruct",
     type=OpenAISDKStreaming,
-    openai_api_base=[
-        "http://localhost:8000/v1",
-    ],
-    key="EMPTY",
-    path="/models/preset/Qwen/Qwen2.5-72B-Instruct/v1.0/",
-    tokenizer_path="/models/preset/Qwen/Qwen2.5-72B-Instruct/v1.0/",
-    max_seq_len=32768,
-)
-qwen2_5_72b_instruct = dict(
-    **qwen2_5_72b_instruct_api,
-    query_per_second=32,
-    batch_size=128,
-    temperature=0.7,
-    max_out_len=8192,
-)
-
-deepseek_v3_0324_api = dict(
-    abbr="DeepSeek-V3-0324",
-    type=OpenAISDKStreaming,
-    openai_api_base=[
-        "https://console.siflow.cn/model-api",
-    ],
-    key="sk-eI0rVe74K9Xq17FJHiFcrOH9fm5I0zdYPsXMRyDRXoSV4vYTSntsHOpyHPGWvWSU",
-    path="simaas-deepseek-v3-v1",
-    tokenizer_path="/models/preset/deepseek-ai/DeepSeek-V3-0324/v1.0/",
-    max_seq_len=32768,
-)
-deepseek_v3_0324 = dict(
-    **deepseek_v3_0324_api,
-    query_per_second=32,
-    batch_size=128,
-    temperature=0.7,
-    max_out_len=8192,
-)
-
-deepseek_v3_1_api = dict(
-    abbr="DeepSeek-V3.1",
-    type=OpenAISDKStreaming,
-    openai_api_base=[
-        "http://localhost:8000/v1",
-    ],
-    key="EMPTY",
-    path="/models/preset/deepseek-ai/DeepSeek-V3.1/v1.0/",
-    tokenizer_path="/models/preset/deepseek-ai/DeepSeek-V3.1/v1.0/",
-    max_seq_len=32768,
-)
-deepseek_v3_1 = dict(
-    **deepseek_v3_1_api,
-    query_per_second=32,
-    batch_size=128,
-    temperature=0.7,
-    max_out_len=8192,
-)
-
-gemini2_5_flash_api = dict(
-    abbr="Gemini-2.5-Flash",
-    type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
     openai_api_base=[
         "https://console.siflow.cn/model-api",
     ],
     key="",
-    path="gemini-2.5-flash",
-    tokenizer_path="/models/preset/Qwen/Qwen2.5-72B-Instruct/v1.0/",
-    max_seq_len=32768,
-)
-gemini2_5_flash = dict(
-    **gemini2_5_flash_api,
+    path="simaas-qwen2-5-72b-instruct-v1",
+    tokenizer_path="/models/preset/deepseek-ai/DeepSeek-V3.1/v1.0/",
     query_per_second=32,
     batch_size=128,
-    temperature=0.7,
+    max_seq_len=32768,
     max_out_len=8192,
+    temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
+)
+deepseek_v3_0324 = dict(
+    abbr="DeepSeek-V3-0324",
+    type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
+    openai_api_base=[
+        "https://console.siflow.cn/model-api",
+    ],
+    key="",
+    path="simaas-deepseek-v3-v1",
+    tokenizer_path="/models/preset/deepseek-ai/DeepSeek-V3.1/v1.0/",
+    query_per_second=32,
+    batch_size=128,
+    max_seq_len=32768,
+    max_out_len=8192,
+    temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
+)
+deepseek_v3_1 = dict(
+    abbr="Deepseek-V3.1",
+    type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
+    openai_api_base=[
+        "http://eval-deepseek-v3-1.t-ai-infra-ylsun.svc/v1",
+    ],
+    key="EMPTY",
+    path="deepseek-v3-1",
+    tokenizer_path="/models/preset/deepseek-ai/DeepSeek-V3.1/v1.0/",
+    query_per_second=32,
+    batch_size=128,
+    max_seq_len=32768,
+    max_out_len=8192,
+    temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
+)
+exp262 = dict(
+    abbr="Exp262",
+    type=OpenAISDKStreaming,
+    meta_template=api_meta_template,
+    openai_api_base=[
+        "http://eval-deepseek-v3-exp262.t-ai-infra-ylsun.svc/v1",
+    ],
+    key="EMPTY",
+    path="deepseek-v3-exp262",
+    tokenizer_path="/everything/models/deepseek-ai/DeepSeek-V3.1-Base",
+    query_per_second=32,
+    batch_size=128,
+    max_seq_len=32768,
+    max_out_len=8192,
+    temperature=0.6,
+    mode="mid",  # truncation
+    retry=10,
 )
 
-models = [qwen2_5_72b_instruct, deepseek_v3_0324, deepseek_v3_1, gemini2_5_flash]
+models = [qwen2_5_72b_instruct, deepseek_v3_0324, deepseek_v3_1, exp262]
 
 infer = dict(
     partitioner=dict(
         type=NumWorkerPartitioner,
-        num_worker=4,
+        num_worker=16,
     ),
     runner=dict(
         type=LocalRunner,
@@ -149,7 +154,7 @@ infer = dict(
 eval = dict(
     partitioner=dict(
         type=NaivePartitioner,
-        n=8,
+        n=16,
     ),
     runner=dict(
         type=LocalRunner,

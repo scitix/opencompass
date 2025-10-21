@@ -6,8 +6,8 @@ from math_verify import verify
 # last - part1
 # OUTPUTS_DIR = "outputs/compass-academic-202510-simple/20251011_004222"
 # DATASETS = [
-#     "lcb-code-generation-n6",
 #     "aime-2025-n32",
+#     "lcb-code-generation-n6",
 # ]
 # MODELS = [
 #     "deepseek-v3.1",
@@ -39,9 +39,9 @@ from math_verify import verify
 # exp1
 # OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251017_213035"
 # DATASETS = [
-#     "lcb-code-generation-lite_2408_2505",
 #     "aime-2024-n16",
 #     "aime-2025-n16",
+#     "lcb-code-generation-lite_2408_2505",
 # ]
 # MODELS = [
 #     "deepseek-v3.1",
@@ -51,9 +51,9 @@ from math_verify import verify
 # exp2
 # OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251018_001100"
 # DATASETS = [
-#     "lcb-code-generation-lite_2408_2505-n6",
 #     "aime-2024-n32",
 #     "aime-2025-n32",
+#     "lcb-code-generation-lite_2408_2505-n6",
 # ]
 # MODELS = [
 #     "deepseek-v3.1",
@@ -93,26 +93,60 @@ from math_verify import verify
 #     "deepseek-v3-0324",
 # ]
 
-# exp6
-OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251019_160122"
-DATASETS = [
-    "lcb-code-generation-lite_2408_2505-n10",
-    "aime-2024-n64",
-    "aime-2025-n64",
-]
-MODELS = [
-    "deepseek-v3.1",
-    "deepseek-v3-0324",
-]
+# exp6 - deepseek-v3.1-non-thinking
+# OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251019_160122"
+# DATASETS = [
+#     "aime-2024-n64",
+#     "aime-2025-n64",
+#     "lcb-code-generation-lite_2408_2505-n10",
+# ]
+# MODELS = [
+#     "deepseek-v3.1",
+#     "deepseek-v3-0324",
+# ]
 
-# exp7
-OUTPUTS_DIR = ""
+# exp6 - deepseek-v3.1-thinking
+# OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251020_114308"
+# DATASETS = [
+#     "aime-2024-n64",
+#     "aime-2025-n64",
+#     "lcb-code-generation-lite_2408_2505-n10",
+# ]
+# MODELS = [
+#     "deepseek-v3.1-thinking",
+# ]
+
+# exp6 - deepseek-v3.1-terminus-thinking
+# OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251021_134930"
+# DATASETS = [
+#     "aime-2024-n64",
+#     "aime-2025-n64",
+#     "lcb-code-generation-lite_2408_2505-n10",
+# ]
+# MODELS = [
+#     "deepseek-v3.1-terminus-thinking",
+# ]
+
+# exp6 - deepseek-v3.2-exp-thinking - vllm
+# OUTPUTS_DIR = "outputs/compass-academic-202510-fast-diff/20251026_154321"
+# DATASETS = [
+#     "aime-2024-n64",
+#     "aime-2025-n64",
+#     "lcb-code-generation-lite_2408_2505-n10",
+# ]
+# MODELS = [
+#     "deepseek-v3.2-exp-thinking",
+# ]
+
+# exp6 - deepseek-v3.2-exp-thinking - sgl
+OUTPUTS_DIR = "./outputs/compass-academic-202510-fast-diff-sgl/20251027_164529"
 DATASETS = [
     "aime-2024-n64",
     "aime-2025-n64",
+    "lcb-code-generation-lite_2408_2505-n10",
 ]
 MODELS = [
-    "deepseek-v3.1-thinking",
+    "deepseek-v3.2-exp-thinking",
 ]
 
 PREDS_DIR = f"{OUTPUTS_DIR}/predictions"
