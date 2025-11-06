@@ -24,6 +24,7 @@ class CompassBenchTEvalBeforeCallingDataset(BaseDataset):
         path: str,
         lang: str = "cn",
         form: str = "json",
+        norm_tool_name: bool = False,
         n_repeats: int = 1,
         num_examples: int | None = None,
         seed: int = 3407,
@@ -32,7 +33,9 @@ class CompassBenchTEvalBeforeCallingDataset(BaseDataset):
         suffix = "_zh" if lang == "cn" else ""
         data_dir = get_data_path(path)
         path = os.path.join(
-            data_dir, "data", f"reason_retrieve_understand_{form}_v2{suffix}.json"
+            data_dir,
+            "data",
+            f"reason_retrieve_understand_{form}_v2{suffix}_convert2.json",
         )
 
         preprocessed_data = []
@@ -46,13 +49,38 @@ class CompassBenchTEvalBeforeCallingDataset(BaseDataset):
                     if msg["role"] == "function":
                         msg["role"] = "user"
             dialog.append({"role": "assistant", "content": ""})
+
+            gt = v.get("ground_truth", {})
+            messages = v.get("messages", [])
+            tools = v.get("tools", [])
+            # reformat tool names in ground truth if needed
+            if norm_tool_name:
+                if "name" in gt:
+                    tool_name = gt["name"]
+                    if "." in tool_name:
+                        gt["name"] = tool_name.replace(".", "_")
+                for message in messages:
+                    if "tool_calls" in message:
+                        for tool_call in message["tool_calls"]:
+                            tool_name = tool_call["function"]["name"]
+                            if "." in tool_name:
+                                tool_call["function"]["name"] = tool_name.replace(
+                                    ".", "_"
+                                )
+                for tool in tools:
+                    tool_name = tool["function"]["name"]
+                    if "." in tool_name:
+                        tool["function"]["name"] = tool_name.replace(".", "_")
+
             preprocessed_data.append(
                 {
                     "template": v.get("template", {}),
                     "meta_data": v.get("meta_data", {}),
                     "dialog": dialog,
                     # convert to str to avoid pyarrow type error
-                    "ground_truth": json.dumps(v.get("ground_truth", {})),
+                    "ground_truth": json.dumps(gt, ensure_ascii=False),
+                    "messages": json.dumps(messages, ensure_ascii=False),
+                    "tools": json.dumps(tools, ensure_ascii=False),
                 }
             )
         dataset = Dataset.from_list(preprocessed_data)
@@ -106,7 +134,6 @@ class CompassBenchTEvalBeforeCallingEvaluator(BaseEvaluator):
                     "meta_data": sample["meta_data"],
                 }
             )
-            print(resp_data_sample)
             metrics_result = self._evaluate(resp_data_sample)
             results_list.append(metrics_result)
 
@@ -119,7 +146,6 @@ class CompassBenchTEvalBeforeCallingEvaluator(BaseEvaluator):
             )
 
         result = self._post_process(results_list)
-        print(result)
         return {**result, "details": details}
 
     def _format_load(self, data) -> dict:
@@ -291,4 +317,15 @@ class CompassBenchTEvalBeforeCallingEvaluator(BaseEvaluator):
                 ]
         for key in metric_keys:
             results[key] = np.mean([result[key] for result in results_list]) * 100
+
+        success_samples = [r for r in results_list if r.get("parse_rate", 0) == 1]
+        results["args_precision_parsed"] = (
+            np.mean([r["args_precision"] for r in success_samples]) * 100
+        )
+        results["args_recall_parsed"] = (
+            np.mean([r["args_recall"] for r in success_samples]) * 100
+        )
+        results["args_f1_score_parsed"] = (
+            np.mean([r["args_f1_score"] for r in success_samples]) * 100
+        )
         return results
