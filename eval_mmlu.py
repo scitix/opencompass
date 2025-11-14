@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """MMLU evaluation script using PPL method."""
 
 import json
