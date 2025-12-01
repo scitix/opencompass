@@ -15,17 +15,37 @@ Comprehensive evaluation framework for LLM base models, supporting 30+ evaluatio
 
 ### 1. Environment Setup
 
-```bash
-# Create virtual environment
-python3 -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate  # Windows
+This base model evaluation framework is part of the OpenCompass project. Please set up the OpenCompass environment first, then install additional dependencies for base model evaluation.
 
-# Install dependencies
+**Step 1: Setup OpenCompass Environment**
+
+Follow the [OpenCompass Installation Guide](../README.md) to set up the base environment:
+
+```bash
+# Navigate to OpenCompass root directory
+# Create conda environment (recommended)
+conda create --name opencompass python=3.10 -y
+conda activate opencompass
+
+# Install OpenCompass
+pip install -U opencompass
+# Or install from source for latest features:
+git clone https://github.com/open-compass/opencompass opencompass
+cd opencompass
+pip install -e .
+```
+
+**Step 2: Install Additional Dependencies for Base Model Evaluation**
+
+```bash
+# Navigate to base model evaluation directory
+cd eval_base_model
+
+# Install additional dependencies
 pip install tqdm openai datasets pyarrow numpy
 
-# For HumanEval code evaluation
-cd human-eval && pip install -e .
+# For HumanEval code evaluation (optional)
+cd human-eval && pip install -e . && cd ..
 ```
 
 ### 2. API Configuration
@@ -92,6 +112,94 @@ python eval_gsm8k.py &
 python eval_math.py &
 python eval_mmlu.py &
 wait
+```
+
+### 5. Batch Evaluation with run_eval.py
+
+The `run_eval.py` script provides a unified interface to run multiple evaluation subsets with a single command. All parameters have sensible defaults loaded from `.env`.
+
+**Quick Start:**
+
+```bash
+# Run all evaluations (full test) - uses all defaults from .env
+python run_eval.py
+
+# Run specific subset
+python run_eval.py --subset english
+python run_eval.py --subset chinese
+python run_eval.py --subset code
+python run_eval.py --subset math
+
+# Run all subsets explicitly
+python run_eval.py --subset all
+```
+
+**Advanced Usage:**
+
+```bash
+# Quick test with sampling (100 samples, 3-shot)
+python run_eval.py --subset english --max-samples 100 --shot-num 3
+
+# Parallel execution (run 4 evaluations concurrently)
+python run_eval.py --subset all --parallel --max-parallel 4
+
+# Custom configuration
+python run_eval.py \
+  --subset english \
+  --shot-num 5 \
+  --max-workers 64 \
+  --seed 42
+
+# Override model settings (without .env)
+python run_eval.py \
+  --subset code \
+  --model custom-model \
+  --base-url https://custom-api/v1
+```
+
+**Available Subsets:**
+
+- `english`: MMLU, MMLU-Pro, MMLU-Redux, BBH, DROP, ARC, HellaSwag, PIQA, WinoGrande, RACE, AGIEval, NQ, TriviaQA
+- `chinese`: C3, CCPM, CLUEWSC, C-Eval, CMMLU, CMRC
+- `code`: HumanEval, MBPP, LiveCodeBench, CRUXEval-I, CRUXEval-O
+- `math`: GSM8K, MATH, MGSM, CMATH
+- `all`: All of the above
+
+**Output:**
+
+Results are saved to individual log files per evaluation, plus a summary file:
+
+```
+logs/{model_name}/
+├── gsm8k_5shot.json
+├── math_5shot.json
+├── mmlu_5shot.json
+├── ...
+└── summary_english_5shot.json  # Aggregated summary
+```
+
+The summary file contains:
+- Overall statistics (total/successful/failed evaluations)
+- Average accuracy across all tasks
+- Per-evaluation results with accuracy and duration
+- Configuration used (shot_num, max_samples, seed)
+
+**Common Patterns:**
+
+```bash
+# Full benchmark suite (all datasets, default 5-shot)
+python run_eval.py
+
+# Quick sanity check (all subsets, 100 samples each)
+python run_eval.py --max-samples 100 --shot-num 3
+
+# Production benchmark (English only, parallel execution)
+python run_eval.py --subset english --parallel --max-parallel 8
+
+# Compare different shot numbers
+python run_eval.py --subset math --shot-num 0  # 0-shot
+python run_eval.py --subset math --shot-num 3  # 3-shot
+python run_eval.py --subset math --shot-num 8  # 8-shot
 ```
 
 ## Directory Structure

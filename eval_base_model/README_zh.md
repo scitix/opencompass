@@ -15,17 +15,37 @@
 
 ### 1. 环境配置
 
-```bash
-# 创建虚拟环境
-python3 -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-# .venv\Scripts\activate  # Windows
+本基座模型评估框架是 OpenCompass 项目的一部分。请先按照 OpenCompass 的要求搭建基础环境，然后再安装基座模型评估所需的额外依赖。
 
-# 安装依赖
+**第一步：搭建 OpenCompass 环境**
+
+请参考 [OpenCompass 安装指南](../README_zh-CN.md) 搭建基础环境：
+
+```bash
+# 进入 OpenCompass 根目录
+# 创建 conda 虚拟环境（推荐）
+conda create --name opencompass python=3.10 -y
+conda activate opencompass
+
+# 安装 OpenCompass
+pip install -U opencompass
+# 或从源码安装以使用最新功能：
+# git clone https://github.com/open-compass/opencompass opencompass
+# cd opencompass
+# pip install -e .
+```
+
+**第二步：安装基座模型评估的额外依赖**
+
+```bash
+# 进入基座模型评估目录
+cd eval_base_model
+
+# 安装额外依赖
 pip install tqdm openai datasets pyarrow numpy
 
 # 安装 HumanEval 代码评估工具（可选）
-cd human-eval && pip install -e .
+cd human-eval && pip install -e . && cd ..
 ```
 
 ### 2. API 配置
@@ -92,6 +112,94 @@ python eval_gsm8k.py &
 python eval_math.py &
 python eval_mmlu.py &
 wait
+```
+
+### 5. 使用 run_eval.py 批量评估
+
+`run_eval.py` 脚本提供了统一的接口，可以通过单个命令运行多个评估子集。所有参数都有合理的默认值，从 `.env` 文件自动加载。
+
+**快速开始：**
+
+```bash
+# 运行所有评估（全量测试） - 使用 .env 中的所有默认值
+python run_eval.py
+
+# 运行指定子集
+python run_eval.py --subset english
+python run_eval.py --subset chinese
+python run_eval.py --subset code
+python run_eval.py --subset math
+
+# 显式运行所有子集
+python run_eval.py --subset all
+```
+
+**高级用法：**
+
+```bash
+# 快速测试（采样 100 个样本，3-shot）
+python run_eval.py --subset english --max-samples 100 --shot-num 3
+
+# 并行执行（同时运行 4 个评估）
+python run_eval.py --subset all --parallel --max-parallel 4
+
+# 自定义配置
+python run_eval.py \
+  --subset english \
+  --shot-num 5 \
+  --max-workers 64 \
+  --seed 42
+
+# 覆盖模型设置（不使用 .env）
+python run_eval.py \
+  --subset code \
+  --model custom-model \
+  --base-url https://custom-api/v1
+```
+
+**可用子集：**
+
+- `english`: MMLU、MMLU-Pro、MMLU-Redux、BBH、DROP、ARC、HellaSwag、PIQA、WinoGrande、RACE、AGIEval、NQ、TriviaQA
+- `chinese`: C3、CCPM、CLUEWSC、C-Eval、CMMLU、CMRC
+- `code`: HumanEval、MBPP、LiveCodeBench、CRUXEval-I、CRUXEval-O
+- `math`: GSM8K、MATH、MGSM、CMATH
+- `all`: 以上所有子集
+
+**输出结果：**
+
+结果保存为每个评估的单独日志文件，以及一个汇总文件：
+
+```
+logs/{model_name}/
+├── gsm8k_5shot.json
+├── math_5shot.json
+├── mmlu_5shot.json
+├── ...
+└── summary_english_5shot.json  # 汇总结果
+```
+
+汇总文件包含：
+- 总体统计信息（总数/成功/失败的评估数）
+- 所有任务的平均准确率
+- 每个评估的结果（准确率和运行时间）
+- 使用的配置（shot_num、max_samples、seed）
+
+**常用模式：**
+
+```bash
+# 完整基准测试（所有数据集，默认 5-shot）
+python run_eval.py
+
+# 快速健全性检查（所有子集，每个采样 100 个样本）
+python run_eval.py --max-samples 100 --shot-num 3
+
+# 生产基准测试（仅英文数据集，并行执行）
+python run_eval.py --subset english --parallel --max-parallel 8
+
+# 比较不同的 shot 数量
+python run_eval.py --subset math --shot-num 0  # 0-shot
+python run_eval.py --subset math --shot-num 3  # 3-shot
+python run_eval.py --subset math --shot-num 8  # 8-shot
 ```
 
 ## 目录结构
